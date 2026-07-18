@@ -50,7 +50,6 @@ public class AnimalDAO {
             while (rs.next()) {
                 Animal animal = new Animal();
 
-                // Usando os setters exatos do seu modelo
                 animal.setId_animal(rs.getInt("id_animal"));
                 animal.setNome(rs.getString("nome"));
                 animal.setRaca(rs.getString("raca"));

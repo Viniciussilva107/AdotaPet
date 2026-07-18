@@ -1,0 +1,31 @@
+### 1. Cadastrar um novo Adotante
+POST http://localhost:8080/api/adotantes
+Content-Type: application/json
+
+{
+  "cpf": "12345678900",
+  "nome": "João da Silva",
+  "celular": "31988887777"
+}
+
+### 2. Cadastrar um Animal de Teste (Caso ainda não tenha um disponível)
+POST http://localhost:8080/api/animais
+Content-Type: application/json
+
+{
+  "raca": "Vira-lata",
+  "nome": "Caramelo",
+  "porte": "Médio",
+  "status_adocao": true
+}
+
+### 3. Registrar a Adoção (A "Mágica" Transacional)
+# Certifique-se de que o id_animal e o cpf_adotante existem no banco antes de rodar!
+POST http://localhost:8080/api/adocoes
+Content-Type: application/json
+
+{
+  "id_animal": 1,
+  "cpf_adotante": "12345678900",
+  "data_adocao": "2026-07-18"
+}

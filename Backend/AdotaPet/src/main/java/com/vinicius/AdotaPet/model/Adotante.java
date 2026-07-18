@@ -4,12 +4,12 @@ public class Adotante {
 
     private String cpf;
     private String nome;
-    private int celular;
+    private String celular;
 
     public Adotante(){
 
     }
-    public Adotante(String cpf, String nome, int celular) {
+    public Adotante(String cpf, String nome, String celular) {
         this.cpf = cpf;
         this.nome = nome;
         this.celular = celular;
@@ -31,11 +31,11 @@ public class Adotante {
         this.nome = nome;
     }
 
-    public int getCelular() {
+    public String getCelular() {
         return celular;
     }
 
-    public void setCelular(int celular) {
+    public void setCelular(String celular) {
         this.celular = celular;
     }
 }
