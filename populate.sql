@@ -25,7 +25,7 @@ INSERT INTO Vacina (nome, fabricante) VALUES
 ('V10', 'Zoetis'),               -- 1
 ('V8', 'MSD Saúde Animal'),      -- 2
 ('Antirrábica', 'Boehringer'),   -- 3
-('Giárdia', 'Merial'),           -- 4
+('Raiva', 'Merial'),           -- 4
 ('Gripe Canina', 'Zoetis');      -- 5
 
 -- ---------- Adocao ----------
