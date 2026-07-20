@@ -17,7 +17,6 @@ public class VacinaController {
         this.vacinaDAO = vacinaDAO;
     }
 
-    // Rota GET: http://localhost:8080/api/vacinas
     @GetMapping
     public List<Vacina> listarTodos(@RequestParam(required = false) String nome) {
         if (nome != null && !nome.isBlank()) {
@@ -26,7 +25,6 @@ public class VacinaController {
         return vacinaDAO.listarTodos();
     }
 
-    // Rota GET: http://localhost:8080/api/vacinas/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Vacina> buscarPorId(@PathVariable Integer id) {
         Vacina vacina = vacinaDAO.buscarPorId(id);
@@ -36,14 +34,12 @@ public class VacinaController {
         return ResponseEntity.ok(vacina);
     }
 
-    // Rota POST: http://localhost:8080/api/vacinas
     @PostMapping
     public String cadastrar(@RequestBody Vacina vacina) {
         vacinaDAO.salvar(vacina);
         return "Vacina cadastrada com sucesso!";
     }
 
-    // Rota PUT: http://localhost:8080/api/vacinas/{id}
     @PutMapping("/{id}")
     public String atualizar(@PathVariable Integer id, @RequestBody Vacina vacina) {
         vacina.setId_vacina(id);
@@ -51,7 +47,6 @@ public class VacinaController {
         return "Vacina atualizada com sucesso!";
     }
 
-    // Rota DELETE: http://localhost:8080/api/vacinas/{id}
     @DeleteMapping("/{id}")
     public String deletar(@PathVariable Integer id) {
         vacinaDAO.deletar(id);

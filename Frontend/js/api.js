@@ -1,4 +1,4 @@
-// Ajuste esta URL caso o backend esteja a correr noutra porta/endereço.
+
 const API_BASE = "http://localhost:8080/api";
 
 async function apiRequest(path, options = {}) {

@@ -38,7 +38,6 @@ public class AnimalDAO {
         }
     }
 
-    // Metodo para buscar todos os animais
     public List<Animal> listarTodos() {
         String sql = "SELECT * FROM Animal";
         List<Animal> animais = new ArrayList<>();
@@ -66,7 +65,6 @@ public class AnimalDAO {
         return animais;
     }
 
-    // Metodo para buscar animais cujo nome contenha o termo digitado (usado na busca do Frontend)
     public List<Animal> buscarPorNome(String nome) {
         String sql = "SELECT * FROM Animal WHERE nome LIKE ?";
         List<Animal> animais = new ArrayList<>();
@@ -121,7 +119,6 @@ public class AnimalDAO {
         }
     }
 
-    // Metodo para atualizar os dados de um animal existente
     public void atualizar(Animal animal) {
         String sql = "UPDATE Animal SET nome = ?, raca = ?, porte = ?, status_animal = ? WHERE id_animal = ?";
 

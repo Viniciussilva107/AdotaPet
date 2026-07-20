@@ -23,7 +23,7 @@ public class VacinacaoDAO {
                 vacinacao.getData_aplicacao());
     }
 
-    // Lista o histórico de vacinas de um animal, já com o nome/fabricante da vacina
+    // Lista o histórico de vacinas de um animal
     public List<Vacinacao> listarPorAnimal(Integer idAnimal) {
         String sql = "SELECT v.id_animal, v.id_vacina, v.data_aplicacao, va.nome AS nome_vacina, va.fabricante " +
                 "FROM Vacinacao v " +

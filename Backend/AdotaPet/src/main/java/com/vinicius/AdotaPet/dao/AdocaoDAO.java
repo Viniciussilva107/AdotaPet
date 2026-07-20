@@ -36,7 +36,7 @@ public class AdocaoDAO {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Adocao.class));
     }
 
-    // Busca adoções pelo nome do animal ou do adotante (usado na busca do Frontend)
+    // Busca adoções
     public List<Adocao> buscarPorTermo(String termo) {
         String sql = "SELECT ad.* FROM Adocao ad " +
                 "JOIN Animal a ON a.id_animal = ad.id_animal " +

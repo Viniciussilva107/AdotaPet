@@ -4,7 +4,6 @@ const state = {
   vacinas: [],
 };
 
-/* ---------- Utilidades de UI ---------- */
 
 function toast(mensagem, isError = false) {
   const el = document.getElementById("toast");
@@ -21,7 +20,7 @@ function formToObject(form) {
   for (const [key, value] of data.entries()) {
     obj[key] = value;
   }
-  // checkboxes que não são marcados não aparecem no FormData
+
   form.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
     obj[cb.name] = cb.checked;
   });
@@ -46,7 +45,6 @@ document.querySelectorAll("[data-close-form]").forEach((btn) => {
   btn.addEventListener("click", () => hideForm(btn.dataset.closeForm));
 });
 
-/* ---------- Navegação por abas ---------- */
 
 const loaders = {
   animais: carregarAnimais,
@@ -69,7 +67,6 @@ document.getElementById("tabs").addEventListener("click", (e) => {
   loaders[section]();
 });
 
-/* ---------- Estado da API ---------- */
 
 async function verificarApi() {
   const badge = document.getElementById("apiStatus");
@@ -84,7 +81,6 @@ async function verificarApi() {
   }
 }
 
-/* ============ ANIMAIS ============ */
 
 async function carregarAnimais(termo) {
   const lista = document.getElementById("listaAnimais");
@@ -177,7 +173,6 @@ document.getElementById("form-animal").addEventListener("submit", async (e) => {
   }
 });
 
-/* ============ ADOTANTES ============ */
 
 async function carregarAdotantes(termo) {
   const tbody = document.querySelector("#tabelaAdotantes tbody");
@@ -255,7 +250,6 @@ document.getElementById("form-adotante").addEventListener("submit", async (e) =>
   }
 });
 
-/* ============ ADOÇÕES ============ */
 
 async function carregarAdocoes(termo) {
   const tbody = document.querySelector("#tabelaAdocoes tbody");
@@ -321,14 +315,13 @@ document.getElementById("form-adocao").addEventListener("submit", async (e) => {
     await api.post("/adocoes", dados);
     toast("Adoção registada!");
     hideForm("form-adocao");
-    state.animais = await api.get("/animais"); // status do animal muda no backend
+    state.animais = await api.get("/animais");
     carregarAdocoes();
   } catch (e) {
     toast("Não foi possível registar a adoção.", true);
   }
 });
 
-/* ============ VACINAS ============ */
 
 async function carregarVacinas(termo) {
   const tbody = document.querySelector("#tabelaVacinas tbody");
@@ -385,7 +378,6 @@ document.getElementById("form-vacina").addEventListener("submit", async (e) => {
   }
 });
 
-/* ============ MODAL DE VACINAÇÃO ============ */
 
 async function abrirModalVacinacao(animal) {
   document.getElementById("modalVacinacaoTitulo").textContent = `Carteira de vacinação — ${animal.nome}`;
@@ -440,7 +432,6 @@ document.getElementById("form-vacinacao").addEventListener("submit", async (e) =
   }
 });
 
-/* ---------- Auxiliares ---------- */
 
 function escapeHtml(str) {
   const div = document.createElement("div");
@@ -448,7 +439,6 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-/* ---------- Busca (com pequeno atraso pra não disparar a cada tecla) ---------- */
 
 function ligarBusca(inputId, callback) {
   const input = document.getElementById(inputId);
@@ -464,7 +454,6 @@ ligarBusca("buscaAdotantes", carregarAdotantes);
 ligarBusca("buscaAdocoes", carregarAdocoes);
 ligarBusca("buscaVacinas", carregarVacinas);
 
-/* ---------- Arranque ---------- */
 
 verificarApi();
 carregarAnimais();
