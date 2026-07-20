@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdotaPet · Registo de adoções</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">🐾</span>
+      <div>
+        <h1>AdotaPet</h1>
+        <p class="tagline">caderno de registo do abrigo</p>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab is-active" data-section="animais">Animais</button>
+      <button class="tab" data-section="adotantes">Adotantes</button>
+      <button class="tab" data-section="adocoes">Adoções</button>
+      <button class="tab" data-section="vacinas">Vacinas</button>
+    </nav>
+    <div class="api-status" id="apiStatus">
+      <span class="dot"></span> <span id="apiStatusText">a verificar API…</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ANIMAIS -->
+    <section class="view is-active" id="view-animais">
+      <div class="view-head">
+        <div>
+          <h2>Animais</h2>
+          <p class="hint">Cada cartão é a carteirinha do animal: estado, dados e histórico de vacinas.</p>
+        </div>
+        <button class="btn btn-primary" data-open-form="form-animal">+ Novo animal</button>
+      </div>
+
+      <form class="panel-form" id="form-animal" hidden>
+        <h3>Cadastrar animal</h3>
+        <input type="hidden" name="id_animal">
+        <div class="field-grid">
+          <label>Nome <input type="text" name="nome" required></label>
+          <label>Raça <input type="text" name="raca"></label>
+          <label>Porte
+            <select name="porte">
+              <option value="Pequeno">Pequeno</option>
+              <option value="Médio">Médio</option>
+              <option value="Grande">Grande</option>
+            </select>
+          </label>
+          <label class="checkbox"><input type="checkbox" name="status_animal" checked> Disponível para adoção</label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close-form="form-animal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+
+      <div class="card-grid" id="listaAnimais"></div>
+    </section>
+
+    <!-- ADOTANTES -->
+    <section class="view" id="view-adotantes">
+      <div class="view-head">
+        <div>
+          <h2>Adotantes</h2>
+          <p class="hint">Pessoas cadastradas que podem adotar um animal.</p>
+        </div>
+        <button class="btn btn-primary" data-open-form="form-adotante">+ Novo adotante</button>
+      </div>
+
+      <form class="panel-form" id="form-adotante" hidden>
+        <h3>Cadastrar adotante</h3>
+        <div class="field-grid">
+          <label>CPF <input type="text" name="cpf" maxlength="11" placeholder="somente números" required></label>
+          <label>Nome <input type="text" name="nome" required></label>
+          <label>Celular <input type="text" name="celular" placeholder="DDD + número"></label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close-form="form-adotante">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+
+      <table class="table" id="tabelaAdotantes">
+        <thead><tr><th>CPF</th><th>Nome</th><th>Celular</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- ADOÇÕES -->
+    <section class="view" id="view-adocoes">
+      <div class="view-head">
+        <div>
+          <h2>Adoções</h2>
+          <p class="hint">Ligar um animal disponível a um adotante já cadastrado.</p>
+        </div>
+        <button class="btn btn-primary" data-open-form="form-adocao">+ Registar adoção</button>
+      </div>
+
+      <form class="panel-form" id="form-adocao" hidden>
+        <h3>Registar adoção</h3>
+        <div class="field-grid">
+          <label>Animal
+            <select name="id_animal" id="selectAnimalAdocao" required></select>
+          </label>
+          <label>Adotante (CPF)
+            <select name="cpf_adotante" id="selectAdotanteAdocao" required></select>
+          </label>
+          <label>Data <input type="date" name="data_adocao" required></label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close-form="form-adocao">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Confirmar adoção</button>
+        </div>
+      </form>
+
+      <table class="table" id="tabelaAdocoes">
+        <thead><tr><th>#</th><th>Animal</th><th>Adotante</th><th>Data</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- VACINAS -->
+    <section class="view" id="view-vacinas">
+      <div class="view-head">
+        <div>
+          <h2>Vacinas</h2>
+          <p class="hint">Catálogo de vacinas disponíveis para aplicar aos animais.</p>
+        </div>
+        <button class="btn btn-primary" data-open-form="form-vacina">+ Nova vacina</button>
+      </div>
+
+      <form class="panel-form" id="form-vacina" hidden>
+        <h3>Cadastrar vacina</h3>
+        <div class="field-grid">
+          <label>Nome <input type="text" name="nome" required></label>
+          <label>Fabricante <input type="text" name="fabricante"></label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close-form="form-vacina">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+
+      <table class="table" id="tabelaVacinas">
+        <thead><tr><th>#</th><th>Nome</th><th>Fabricante</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<!-- Modal: histórico e registo de vacinação de um animal -->
+<div class="modal-backdrop" id="modalVacinacao" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalVacinacaoTitulo">Carteira de vacinação</h3>
+      <button class="btn-icon" id="fecharModalVacinacao">×</button>
+    </div>
+    <ul class="vaccine-history" id="listaVacinacoes"></ul>
+    <form id="form-vacinacao">
+      <input type="hidden" name="id_animal">
+      <div class="field-grid">
+        <label>Vacina <select name="id_vacina" id="selectVacinaAplicar" required></select></label>
+        <label>Data da aplicação <input type="date" name="data_aplicacao" required></label>
+      </div>
+      <button type="submit" class="btn btn-primary">Registar aplicação</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

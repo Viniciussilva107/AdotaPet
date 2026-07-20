@@ -65,4 +65,65 @@ public class AnimalDAO {
 
         return animais;
     }
+
+    public Animal buscarPorId(Integer id) {
+        String sql = "SELECT * FROM Animal WHERE id_animal = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Animal animal = new Animal();
+                    animal.setId_animal(rs.getInt("id_animal"));
+                    animal.setNome(rs.getString("nome"));
+                    animal.setRaca(rs.getString("raca"));
+                    animal.setPorte(rs.getString("porte"));
+                    animal.setStatus_animal(rs.getBoolean("status_animal"));
+                    return animal;
+                }
+                return null;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar animal: " + e.getMessage());
+        }
+    }
+
+    // Metodo para atualizar os dados de um animal existente
+    public void atualizar(Animal animal) {
+        String sql = "UPDATE Animal SET nome = ?, raca = ?, porte = ?, status_animal = ? WHERE id_animal = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, animal.getNome());
+            stmt.setString(2, animal.getRaca());
+            stmt.setString(3, animal.getPorte());
+            stmt.setBoolean(4, animal.isStatus_animal());
+            stmt.setInt(5, animal.getId_animal());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar animal: " + e.getMessage());
+        }
+    }
+
+    // Metodo para remover um animal
+    public void deletar(Integer id) {
+        String sql = "DELETE FROM Animal WHERE id_animal = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao remover animal: " + e.getMessage());
+        }
+    }
 }

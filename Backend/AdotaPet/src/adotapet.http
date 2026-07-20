@@ -16,10 +16,29 @@ Content-Type: application/json
   "raca": "Vira-lata",
   "nome": "Caramelo",
   "porte": "Médio",
-  "status_adocao": true
+  "status_animal": true
 }
 
-### 3. Registrar a Adoção (A "Mágica" Transacional)
+### 3. Cadastrar uma Vacina de Teste
+POST http://localhost:8080/api/vacinas
+Content-Type: application/json
+
+{
+  "nome": "V10",
+  "fabricante": "Zoetis"
+}
+
+### 4. Registrar que o Animal 1 tomou a Vacina 1
+POST http://localhost:8080/api/vacinacoes
+Content-Type: application/json
+
+{
+  "id_animal": 1,
+  "id_vacina": 1,
+  "data_aplicacao": "2026-07-18"
+}
+
+### 5. Registrar a Adoção (A "Mágica" Transacional)
 # Certifique-se de que o id_animal e o cpf_adotante existem no banco antes de rodar!
 POST http://localhost:8080/api/adocoes
 Content-Type: application/json

@@ -4,6 +4,8 @@ import com.vinicius.AdotaPet.dao.AdocaoDAO;
 import com.vinicius.AdotaPet.model.Adocao;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/adocoes")
 public class AdocaoController {
@@ -12,6 +14,11 @@ public class AdocaoController {
 
     public AdocaoController(AdocaoDAO adocaoDAO) {
         this.adocaoDAO = adocaoDAO;
+    }
+
+    @GetMapping
+    public List<Adocao> listarTodos() {
+        return adocaoDAO.listarTodos();
     }
 
     @PostMapping

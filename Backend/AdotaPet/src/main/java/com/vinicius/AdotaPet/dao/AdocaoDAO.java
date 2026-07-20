@@ -1,9 +1,12 @@
 package com.vinicius.AdotaPet.dao;
 
 import com.vinicius.AdotaPet.model.Adocao;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class AdocaoDAO {
@@ -31,5 +34,10 @@ public class AdocaoDAO {
         jdbcTemplate.update(sqlUpdateAnimal, adocao.getId_animal());
 
         System.out.println("Adoção registrada com sucesso e status do animal atualizado!");
+    }
+
+    public List<Adocao> listarTodos() {
+        String sql = "SELECT * FROM Adocao";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Adocao.class));
     }
 }

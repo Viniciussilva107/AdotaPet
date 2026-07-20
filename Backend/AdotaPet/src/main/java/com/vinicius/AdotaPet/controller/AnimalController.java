@@ -1,13 +1,13 @@
 package com.vinicius.AdotaPet.controller;
 import com.vinicius.AdotaPet.dao.AnimalDAO;
 import com.vinicius.AdotaPet.model.Animal;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/animais")
-@CrossOrigin(origins = "http://localhost:5173") // Permite que o React (na porta 5173) aceda a esta API sem erros de CORS
 public class AnimalController {
 
     private final AnimalDAO animalDAO;
@@ -24,11 +24,37 @@ public class AnimalController {
         return animalDAO.listarTodos();
     }
 
+    // Rota GET: http://localhost:8080/api/animais/{id}
+    @GetMapping("/{id}")
+    public ResponseEntity<Animal> buscarPorId(@PathVariable Integer id) {
+        Animal animal = animalDAO.buscarPorId(id);
+        if (animal == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(animal);
+    }
+
     // Rota POST: http://localhost:8080/api/animais
-    // Recebe os dados de um novo animal enviados pelo formulário do React e guarda na base de dados
+    // Recebe os dados de um novo animal enviados pelo formulário do Front-end e guarda na base de dados
     @PostMapping
     public String salvar(@RequestBody Animal animal) {
         animalDAO.salvar(animal);
         return "Animal cadastrado com sucesso!";
+    }
+
+    // Rota PUT: http://localhost:8080/api/animais/{id}
+    // Atualiza os dados de um animal já existente
+    @PutMapping("/{id}")
+    public String atualizar(@PathVariable Integer id, @RequestBody Animal animal) {
+        animal.setId_animal(id);
+        animalDAO.atualizar(animal);
+        return "Animal atualizado com sucesso!";
+    }
+
+    // Rota DELETE: http://localhost:8080/api/animais/{id}
+    @DeleteMapping("/{id}")
+    public String deletar(@PathVariable Integer id) {
+        animalDAO.deletar(id);
+        return "Animal removido com sucesso!";
     }
 }
