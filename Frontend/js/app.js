@@ -86,17 +86,20 @@ async function verificarApi() {
 
 /* ============ ANIMAIS ============ */
 
-async function carregarAnimais() {
+async function carregarAnimais(termo) {
   const lista = document.getElementById("listaAnimais");
   try {
-    state.animais = await api.get("/animais");
+    const query = termo ? `?nome=${encodeURIComponent(termo)}` : "";
+    state.animais = await api.get(`/animais${query}`);
   } catch (e) {
     lista.innerHTML = `<p class="hint">Não foi possível carregar os animais. Verifique se o backend está a correr.</p>`;
     return;
   }
 
   if (state.animais.length === 0) {
-    lista.innerHTML = `<p class="hint">Ainda não há animais cadastrados.</p>`;
+    lista.innerHTML = termo
+        ? `<p class="hint">Nenhum animal encontrado para "${escapeHtml(termo)}".</p>`
+        : `<p class="hint">Ainda não há animais cadastrados.</p>`;
     return;
   }
 
@@ -148,7 +151,7 @@ async function excluirAnimal(animal) {
     toast("Animal removido.");
     carregarAnimais();
   } catch (e) {
-    toast("Não foi possível remover o animal.", true);
+    toast(e.message || "Não foi possível remover o animal.", true);
   }
 }
 
@@ -176,17 +179,20 @@ document.getElementById("form-animal").addEventListener("submit", async (e) => {
 
 /* ============ ADOTANTES ============ */
 
-async function carregarAdotantes() {
+async function carregarAdotantes(termo) {
   const tbody = document.querySelector("#tabelaAdotantes tbody");
   try {
-    state.adotantes = await api.get("/adotantes");
+    const query = termo ? `?nome=${encodeURIComponent(termo)}` : "";
+    state.adotantes = await api.get(`/adotantes${query}`);
   } catch (e) {
     tbody.innerHTML = `<tr class="empty-row"><td colspan="4">Não foi possível carregar os adotantes.</td></tr>`;
     return;
   }
 
   if (state.adotantes.length === 0) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="4">Ainda não há adotantes cadastrados.</td></tr>`;
+    tbody.innerHTML = termo
+        ? `<tr class="empty-row"><td colspan="4">Nenhum adotante encontrado para "${escapeHtml(termo)}".</td></tr>`
+        : `<tr class="empty-row"><td colspan="4">Ainda não há adotantes cadastrados.</td></tr>`;
     return;
   }
 
@@ -251,7 +257,7 @@ document.getElementById("form-adotante").addEventListener("submit", async (e) =>
 
 /* ============ ADOÇÕES ============ */
 
-async function carregarAdocoes() {
+async function carregarAdocoes(termo) {
   const tbody = document.querySelector("#tabelaAdocoes tbody");
 
   if (state.animais.length === 0) state.animais = await api.get("/animais").catch(() => []);
@@ -260,14 +266,17 @@ async function carregarAdocoes() {
 
   let adocoes;
   try {
-    adocoes = await api.get("/adocoes");
+    const query = termo ? `?termo=${encodeURIComponent(termo)}` : "";
+    adocoes = await api.get(`/adocoes${query}`);
   } catch (e) {
     tbody.innerHTML = `<tr class="empty-row"><td colspan="4">Não foi possível carregar as adoções.</td></tr>`;
     return;
   }
 
   if (adocoes.length === 0) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="4">Ainda não há adoções registadas.</td></tr>`;
+    tbody.innerHTML = termo
+        ? `<tr class="empty-row"><td colspan="4">Nenhuma adoção encontrada para "${escapeHtml(termo)}".</td></tr>`
+        : `<tr class="empty-row"><td colspan="4">Ainda não há adoções registadas.</td></tr>`;
     return;
   }
 
@@ -290,13 +299,13 @@ function preencherSelectsAdocao() {
   const selectAnimal = document.getElementById("selectAnimalAdocao");
   const disponiveis = state.animais.filter((a) => a.status_animal);
   selectAnimal.innerHTML = disponiveis.length
-    ? disponiveis.map((a) => `<option value="${a.id_animal}">${escapeHtml(a.nome)} (#${a.id_animal})</option>`).join("")
-    : `<option value="">Nenhum animal disponível</option>`;
+      ? disponiveis.map((a) => `<option value="${a.id_animal}">${escapeHtml(a.nome)} (#${a.id_animal})</option>`).join("")
+      : `<option value="">Nenhum animal disponível</option>`;
 
   const selectAdotante = document.getElementById("selectAdotanteAdocao");
   selectAdotante.innerHTML = state.adotantes.length
-    ? state.adotantes.map((a) => `<option value="${a.cpf}">${escapeHtml(a.nome)} (${a.cpf})</option>`).join("")
-    : `<option value="">Nenhum adotante cadastrado</option>`;
+      ? state.adotantes.map((a) => `<option value="${a.cpf}">${escapeHtml(a.nome)} (${a.cpf})</option>`).join("")
+      : `<option value="">Nenhum adotante cadastrado</option>`;
 }
 
 document.getElementById("form-adocao").addEventListener("submit", async (e) => {
@@ -321,17 +330,20 @@ document.getElementById("form-adocao").addEventListener("submit", async (e) => {
 
 /* ============ VACINAS ============ */
 
-async function carregarVacinas() {
+async function carregarVacinas(termo) {
   const tbody = document.querySelector("#tabelaVacinas tbody");
   try {
-    state.vacinas = await api.get("/vacinas");
+    const query = termo ? `?nome=${encodeURIComponent(termo)}` : "";
+    state.vacinas = await api.get(`/vacinas${query}`);
   } catch (e) {
     tbody.innerHTML = `<tr class="empty-row"><td colspan="4">Não foi possível carregar as vacinas.</td></tr>`;
     return;
   }
 
   if (state.vacinas.length === 0) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="4">Ainda não há vacinas cadastradas.</td></tr>`;
+    tbody.innerHTML = termo
+        ? `<tr class="empty-row"><td colspan="4">Nenhuma vacina encontrada para "${escapeHtml(termo)}".</td></tr>`
+        : `<tr class="empty-row"><td colspan="4">Ainda não há vacinas cadastradas.</td></tr>`;
     return;
   }
 
@@ -384,8 +396,8 @@ async function abrirModalVacinacao(animal) {
   }
   const select = document.getElementById("selectVacinaAplicar");
   select.innerHTML = state.vacinas.length
-    ? state.vacinas.map((v) => `<option value="${v.id_vacina}">${escapeHtml(v.nome)}</option>`).join("")
-    : `<option value="">Cadastre uma vacina primeiro</option>`;
+      ? state.vacinas.map((v) => `<option value="${v.id_vacina}">${escapeHtml(v.nome)}</option>`).join("")
+      : `<option value="">Cadastre uma vacina primeiro</option>`;
 
   await carregarHistoricoVacinacao(animal.id_animal);
   document.getElementById("modalVacinacao").hidden = false;
@@ -402,8 +414,8 @@ async function carregarHistoricoVacinacao(idAnimal) {
   }
 
   lista.innerHTML = historico.length
-    ? historico.map((v) => `<li><span>${escapeHtml(v.nome_vacina)}</span><span class="v-date">${escapeHtml(v.data_aplicacao)}</span></li>`).join("")
-    : `<li class="vaccine-history-empty">Nenhuma vacina aplicada ainda.</li>`;
+      ? historico.map((v) => `<li><span>${escapeHtml(v.nome_vacina)}</span><span class="v-date">${escapeHtml(v.data_aplicacao)}</span></li>`).join("")
+      : `<li class="vaccine-history-empty">Nenhuma vacina aplicada ainda.</li>`;
 }
 
 document.getElementById("fecharModalVacinacao").addEventListener("click", () => {
@@ -435,6 +447,22 @@ function escapeHtml(str) {
   div.textContent = str ?? "";
   return div.innerHTML;
 }
+
+/* ---------- Busca (com pequeno atraso pra não disparar a cada tecla) ---------- */
+
+function ligarBusca(inputId, callback) {
+  const input = document.getElementById(inputId);
+  let timer;
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => callback(input.value.trim()), 300);
+  });
+}
+
+ligarBusca("buscaAnimais", carregarAnimais);
+ligarBusca("buscaAdotantes", carregarAdotantes);
+ligarBusca("buscaAdocoes", carregarAdocoes);
+ligarBusca("buscaVacinas", carregarVacinas);
 
 /* ---------- Arranque ---------- */
 

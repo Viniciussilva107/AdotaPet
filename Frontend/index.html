@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AdotaPet · Registo de adoções</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdotaPet · Registo de adoções</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -40,7 +40,10 @@
           <h2>Animais</h2>
           <p class="hint">Cada cartão é a carteirinha do animal: estado, dados e histórico de vacinas.</p>
         </div>
-        <button class="btn btn-primary" data-open-form="form-animal">+ Novo animal</button>
+        <div class="view-actions">
+          <input type="search" class="search-input" id="buscaAnimais" placeholder="Buscar por nome...">
+          <button class="btn btn-primary" data-open-form="form-animal">+ Novo animal</button>
+        </div>
       </div>
 
       <form class="panel-form" id="form-animal" hidden>
@@ -74,7 +77,10 @@
           <h2>Adotantes</h2>
           <p class="hint">Pessoas cadastradas que podem adotar um animal.</p>
         </div>
-        <button class="btn btn-primary" data-open-form="form-adotante">+ Novo adotante</button>
+        <div class="view-actions">
+          <input type="search" class="search-input" id="buscaAdotantes" placeholder="Buscar por nome...">
+          <button class="btn btn-primary" data-open-form="form-adotante">+ Novo adotante</button>
+        </div>
       </div>
 
       <form class="panel-form" id="form-adotante" hidden>
@@ -103,7 +109,10 @@
           <h2>Adoções</h2>
           <p class="hint">Ligar um animal disponível a um adotante já cadastrado.</p>
         </div>
-        <button class="btn btn-primary" data-open-form="form-adocao">+ Registar adoção</button>
+        <div class="view-actions">
+          <input type="search" class="search-input" id="buscaAdocoes" placeholder="Buscar por animal ou adotante...">
+          <button class="btn btn-primary" data-open-form="form-adocao">+ Registar adoção</button>
+        </div>
       </div>
 
       <form class="panel-form" id="form-adocao" hidden>
@@ -136,7 +145,10 @@
           <h2>Vacinas</h2>
           <p class="hint">Catálogo de vacinas disponíveis para aplicar aos animais.</p>
         </div>
-        <button class="btn btn-primary" data-open-form="form-vacina">+ Nova vacina</button>
+        <div class="view-actions">
+          <input type="search" class="search-input" id="buscaVacinas" placeholder="Buscar por nome...">
+          <button class="btn btn-primary" data-open-form="form-vacina">+ Nova vacina</button>
+        </div>
       </div>
 
       <form class="panel-form" id="form-vacina" hidden>

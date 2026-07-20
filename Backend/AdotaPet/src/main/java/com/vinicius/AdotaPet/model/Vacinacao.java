@@ -2,15 +2,11 @@ package com.vinicius.AdotaPet.model;
 
 import java.time.LocalDate;
 
-// Representa a tabela Vacinacao(id_animal, id_vacina, data_aplicacao) do modelo relacional:
-// o registo de que um determinado Animal tomou uma determinada Vacina numa certa data.
 public class Vacinacao {
 
     private Integer id_animal;
     private Integer id_vacina;
     private LocalDate data_aplicacao;
-
-    // Campos extra preenchidos apenas nas consultas (join), para facilitar a exibição no Frontend
     private String nome_vacina;
     private String fabricante;
 

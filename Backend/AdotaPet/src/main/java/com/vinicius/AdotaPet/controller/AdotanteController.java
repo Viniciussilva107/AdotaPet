@@ -18,7 +18,10 @@ public class AdotanteController {
     }
 
     @GetMapping
-    public List<Adotante> listarTodos() {
+    public List<Adotante> listarTodos(@RequestParam(required = false) String nome) {
+        if (nome != null && !nome.isBlank()) {
+            return adotanteDAO.buscarPorNome(nome);
+        }
         return adotanteDAO.listarTodos();
     }
 

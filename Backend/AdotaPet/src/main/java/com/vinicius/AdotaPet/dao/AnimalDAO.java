@@ -66,6 +66,35 @@ public class AnimalDAO {
         return animais;
     }
 
+    // Metodo para buscar animais cujo nome contenha o termo digitado (usado na busca do Frontend)
+    public List<Animal> buscarPorNome(String nome) {
+        String sql = "SELECT * FROM Animal WHERE nome LIKE ?";
+        List<Animal> animais = new ArrayList<>();
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + nome + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Animal animal = new Animal();
+                    animal.setId_animal(rs.getInt("id_animal"));
+                    animal.setNome(rs.getString("nome"));
+                    animal.setRaca(rs.getString("raca"));
+                    animal.setPorte(rs.getString("porte"));
+                    animal.setStatus_animal(rs.getBoolean("status_animal"));
+                    animais.add(animal);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar animal por nome: " + e.getMessage());
+        }
+
+        return animais;
+    }
+
     public Animal buscarPorId(Integer id) {
         String sql = "SELECT * FROM Animal WHERE id_animal = ?";
 

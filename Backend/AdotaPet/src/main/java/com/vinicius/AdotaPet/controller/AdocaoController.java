@@ -17,7 +17,10 @@ public class AdocaoController {
     }
 
     @GetMapping
-    public List<Adocao> listarTodos() {
+    public List<Adocao> listarTodos(@RequestParam(required = false) String termo) {
+        if (termo != null && !termo.isBlank()) {
+            return adocaoDAO.buscarPorTermo(termo);
+        }
         return adocaoDAO.listarTodos();
     }
 

@@ -19,7 +19,10 @@ public class VacinaController {
 
     // Rota GET: http://localhost:8080/api/vacinas
     @GetMapping
-    public List<Vacina> listarTodos() {
+    public List<Vacina> listarTodos(@RequestParam(required = false) String nome) {
+        if (nome != null && !nome.isBlank()) {
+            return vacinaDAO.buscarPorNome(nome);
+        }
         return vacinaDAO.listarTodos();
     }
 

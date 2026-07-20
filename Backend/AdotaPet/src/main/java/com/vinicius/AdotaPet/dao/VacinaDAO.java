@@ -45,6 +45,11 @@ public class VacinaDAO {
         return resultado.isEmpty() ? null : resultado.get(0);
     }
 
+    public List<Vacina> buscarPorNome(String nome) {
+        String sql = "SELECT * FROM Vacina WHERE nome LIKE ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacina.class), "%" + nome + "%");
+    }
+
     public void atualizar(Vacina vacina) {
         String sql = "UPDATE Vacina SET nome = ?, fabricante = ? WHERE id_vacina = ?";
         jdbcTemplate.update(sql, vacina.getNome(), vacina.getFabricante(), vacina.getId_vacina());

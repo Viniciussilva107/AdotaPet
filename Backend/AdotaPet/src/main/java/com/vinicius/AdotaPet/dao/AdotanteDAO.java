@@ -32,6 +32,11 @@ public class AdotanteDAO {
         return resultado.isEmpty() ? null : resultado.get(0);
     }
 
+    public List<Adotante> buscarPorNome(String nome) {
+        String sql = "SELECT * FROM Adotante WHERE nome LIKE ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Adotante.class), "%" + nome + "%");
+    }
+
     public void atualizar(Adotante adotante) {
         String sql = "UPDATE Adotante SET nome = ?, celular = ? WHERE cpf = ?";
         jdbcTemplate.update(sql, adotante.getNome(), adotante.getCelular(), adotante.getCpf());
